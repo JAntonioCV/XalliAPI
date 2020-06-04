@@ -1,0 +1,58 @@
+﻿@model MenuAPI.DetalleDeOrden
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DetalleDeOrden</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadOrden)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CantidadOrden)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NotaDetalleOrden)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NotaDetalleOrden)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoDetalleOrden)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoDetalleOrden)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Menu.CodigoMenu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Menu.CodigoMenu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Orden.CodigoOrden)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Orden.CodigoOrden)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

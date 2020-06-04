@@ -1,0 +1,58 @@
+﻿@model MenuAPI.Menu
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Menu</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CodigoMenu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodigoMenu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescripcionPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescripcionPlatillo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioPlatillo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoPlatillo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoDePlatillo.CodigoTipoPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoDePlatillo.CodigoTipoPlatillo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,64 @@
+﻿@model MenuAPI.Menu
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Menu</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CodigoMenu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodigoMenu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescripcionPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescripcionPlatillo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioPlatillo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoPlatillo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoDePlatillo.CodigoTipoPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoDePlatillo.CodigoTipoPlatillo)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

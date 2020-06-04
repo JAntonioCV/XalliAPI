@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MenuXally.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MenuXallyStoreContainer">
+    <EntitySet Name="Recetas" EntityType="MenuXally.Store.Recetas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Menus" EntityType="MenuXally.Store.Menus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TiposDePlatillo" EntityType="MenuXally.Store.TiposDePlatillo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DetallesDeOrden" EntityType="MenuXally.Store.DetallesDeOrden" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Ordenes" EntityType="MenuXally.Store.Ordenes" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="MenuReceta" Association="MenuXally.Store.MenuReceta">
+      <End Role="Menu" EntitySet="Menus" />
+      <End Role="Receta" EntitySet="Recetas" />
+    </AssociationSet>
+    <AssociationSet Name="TipoDePlatilloMenu" Association="MenuXally.Store.TipoDePlatilloMenu">
+      <End Role="CategoriaMenu" EntitySet="TiposDePlatillo" />
+      <End Role="Menu" EntitySet="Menus" />
+    </AssociationSet>
+    <AssociationSet Name="MenuDetalleDeOrden" Association="MenuXally.Store.MenuDetalleDeOrden">
+      <End Role="Menu" EntitySet="Menus" />
+      <End Role="DetalleDeOrden" EntitySet="DetallesDeOrden" />
+    </AssociationSet>
+    <AssociationSet Name="OrdenDetalleDeOrden" Association="MenuXally.Store.OrdenDetalleDeOrden">
+      <End Role="Orden" EntitySet="Ordenes" />
+      <End Role="DetalleDeOrden" EntitySet="DetallesDeOrden" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Recetas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DescripcionReceta" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="TiempoEstimadoReceta" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EstadoReceta" Type="bit" Nullable="false" />
+    <Property Name="IngredientesPrincipales" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MenuId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Menus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CodigoMenu" Type="nchar" Nullable="false" MaxLength="4" />
+    <Property Name="DescripcionPlatillo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PrecioPlatillo" Type="float" Nullable="false" />
+    <Property Name="EstadoPlatillo" Type="bit" Nullable="false" />
+    <Property Name="TipoDePlatilloId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TiposDePlatillo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CodigoTipoPlatillo" Type="nchar" Nullable="false" MaxLength="4" />
+    <Property Name="DescripcionTipoPlatillo" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="EstadoTipoPlatillo" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DetallesDeOrden">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CantidadOrden" Type="int" Nullable="false" />
+    <Property Name="NotaDetalleOrden" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="EstadoDetalleOrden" Type="bit" Nullable="false" />
+    <Property Name="MenuId" Type="int" Nullable="false" />
+    <Property Name="OrdenId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ordenes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CodigoOrden" Type="nchar" Nullable="false" MaxLength="4" />
+    <Property Name="FechaOrden" Type="datetime" Nullable="false" />
+    <Property Name="TiempoOrden" Type="datetime" Nullable="false" />
+    <Property Name="EstadoOrden" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="MenuReceta">
+    <End Role="Menu" Type="MenuXally.Store.Menus" Multiplicity="1" />
+    <End Role="Receta" Type="MenuXally.Store.Recetas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Receta">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TipoDePlatilloMenu">
+    <End Role="CategoriaMenu" Type="MenuXally.Store.TiposDePlatillo" Multiplicity="1" />
+    <End Role="Menu" Type="MenuXally.Store.Menus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CategoriaMenu">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Menu">
+        <PropertyRef Name="TipoDePlatilloId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MenuDetalleDeOrden">
+    <End Role="Menu" Type="MenuXally.Store.Menus" Multiplicity="1" />
+    <End Role="DetalleDeOrden" Type="MenuXally.Store.DetallesDeOrden" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DetalleDeOrden">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrdenDetalleDeOrden">
+    <End Role="Orden" Type="MenuXally.Store.Ordenes" Multiplicity="1" />
+    <End Role="DetalleDeOrden" Type="MenuXally.Store.DetallesDeOrden" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orden">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DetalleDeOrden">
+        <PropertyRef Name="OrdenId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="MenuXally" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="MenuXallyContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Recetas" EntityType="MenuXally.Receta" />
+          <EntitySet Name="Menus" EntityType="MenuXally.Menu" />
+          <EntitySet Name="TiposDePlatillo" EntityType="MenuXally.CategoriaMenu" />
+          <EntitySet Name="DetallesDeOrden" EntityType="MenuXally.DetalleDeOrden" />
+          <AssociationSet Name="MenuReceta" Association="MenuXally.MenuReceta">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="Receta" EntitySet="Recetas" />
+          </AssociationSet>
+          <AssociationSet Name="TipoDePlatilloMenu" Association="MenuXally.TipoDePlatilloMenu">
+            <End Role="CategoriaMenu" EntitySet="TiposDePlatillo" />
+            <End Role="Menu" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="MenuDetalleDeOrden" Association="MenuXally.MenuDetalleDeOrden">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="DetalleDeOrden" EntitySet="DetallesDeOrden" />
+          </AssociationSet>
+          <EntitySet Name="Ordenes" EntityType="MenuXally.Orden" />
+          <AssociationSet Name="OrdenDetalleDeOrden" Association="MenuXally.OrdenDetalleDeOrden">
+            <End Role="Orden" EntitySet="Ordenes" />
+            <End Role="DetalleDeOrden" EntitySet="DetallesDeOrden" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Receta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DescripcionReceta" Type="String" Nullable="true" Unicode="true" />
+          <Property Name="TiempoEstimadoReceta" Type="String" Nullable="true" />
+          <Property Name="EstadoReceta" Type="Boolean" Nullable="false" />
+          <Property Name="IngredientesPrincipales" Type="String" Nullable="false" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Menu" Relationship="MenuXally.MenuReceta" FromRole="Receta" ToRole="Menu" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodigoMenu" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="DescripcionPlatillo" Type="String" Nullable="false" Unicode="true" />
+          <Property Name="PrecioPlatillo" Type="Double" Nullable="false" />
+          <Property Name="EstadoPlatillo" Type="Boolean" Nullable="false" />
+          <Property Name="TipoDePlatilloId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Receta" Relationship="MenuXally.MenuReceta" FromRole="Menu" ToRole="Receta" />
+          <NavigationProperty Name="TipoDePlatillo" Relationship="MenuXally.TipoDePlatilloMenu" FromRole="Menu" ToRole="CategoriaMenu" />
+          <NavigationProperty Name="DetallesDeOrden" Relationship="MenuXally.MenuDetalleDeOrden" FromRole="Menu" ToRole="DetalleDeOrden" />
+        </EntityType>
+        <EntityType Name="CategoriaMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodigoTipoPlatillo" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="DescripcionTipoPlatillo" Type="String" Nullable="false" MaxLength="80" Unicode="true" />
+          <Property Name="EstadoTipoPlatillo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Menu" Relationship="MenuXally.TipoDePlatilloMenu" FromRole="CategoriaMenu" ToRole="Menu" />
+        </EntityType>
+        <EntityType Name="DetalleDeOrden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="CantidadOrden" Nullable="false" Type="Int32" />
+          <Property Name="NotaDetalleOrden" Nullable="false" MaxLength="80" FixedLength="false" Type="String" />
+          <Property Name="EstadoDetalleOrden" Nullable="false" Type="Boolean" />
+          <NavigationProperty Name="Menu" Relationship="MenuXally.MenuDetalleDeOrden" FromRole="DetalleDeOrden" ToRole="Menu" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Orden" Relationship="MenuXally.OrdenDetalleDeOrden" FromRole="DetalleDeOrden" ToRole="Orden" />
+          <Property Name="OrdenId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="MenuReceta">
+          <End Type="MenuXally.Menu" Role="Menu" Multiplicity="1" />
+          <End Type="MenuXally.Receta" Role="Receta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Receta">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TipoDePlatilloMenu">
+          <End Type="MenuXally.CategoriaMenu" Role="CategoriaMenu" Multiplicity="1" />
+          <End Type="MenuXally.Menu" Role="Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaMenu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="TipoDePlatilloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MenuDetalleDeOrden">
+          <End Type="MenuXally.Menu" Role="Menu" Multiplicity="1" />
+          <End Type="MenuXally.DetalleDeOrden" Role="DetalleDeOrden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleDeOrden">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Orden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodigoOrden" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="FechaOrden" Type="DateTime" Nullable="false" />
+          <Property Name="TiempoOrden" Type="DateTime" Nullable="false" />
+          <Property Name="EstadoOrden" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DetallesDeOrden" Relationship="MenuXally.OrdenDetalleDeOrden" FromRole="Orden" ToRole="DetalleDeOrden" />
+        </EntityType>
+        <Association Name="OrdenDetalleDeOrden">
+          <End Type="MenuXally.Orden" Role="Orden" Multiplicity="1" />
+          <End Type="MenuXally.DetalleDeOrden" Role="DetalleDeOrden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleDeOrden">
+              <PropertyRef Name="OrdenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MenuXallyStoreContainer" CdmEntityContainer="MenuXallyContainer">
+    <EntitySetMapping Name="Recetas">
+      <EntityTypeMapping TypeName="IsTypeOf(MenuXally.Receta)">
+        <MappingFragment StoreEntitySet="Recetas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DescripcionReceta" ColumnName="DescripcionReceta" />
+          <ScalarProperty Name="TiempoEstimadoReceta" ColumnName="TiempoEstimadoReceta" />
+          <ScalarProperty Name="EstadoReceta" ColumnName="EstadoReceta" />
+          <ScalarProperty Name="IngredientesPrincipales" ColumnName="IngredientesPrincipales" />
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="IsTypeOf(MenuXally.Menu)">
+        <MappingFragment StoreEntitySet="Menus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CodigoMenu" ColumnName="CodigoMenu" />
+          <ScalarProperty Name="DescripcionPlatillo" ColumnName="DescripcionPlatillo" />
+          <ScalarProperty Name="PrecioPlatillo" ColumnName="PrecioPlatillo" />
+          <ScalarProperty Name="EstadoPlatillo" ColumnName="EstadoPlatillo" />
+          <ScalarProperty Name="TipoDePlatilloId" ColumnName="TipoDePlatilloId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TiposDePlatillo">
+      <EntityTypeMapping TypeName="IsTypeOf(MenuXally.CategoriaMenu)">
+        <MappingFragment StoreEntitySet="TiposDePlatillo">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CodigoTipoPlatillo" ColumnName="CodigoTipoPlatillo" />
+          <ScalarProperty Name="DescripcionTipoPlatillo" ColumnName="DescripcionTipoPlatillo" />
+          <ScalarProperty Name="EstadoTipoPlatillo" ColumnName="EstadoTipoPlatillo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DetallesDeOrden">
+      <EntityTypeMapping TypeName="IsTypeOf(MenuXally.DetalleDeOrden)">
+        <MappingFragment StoreEntitySet="DetallesDeOrden">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CantidadOrden" ColumnName="CantidadOrden" />
+          <ScalarProperty Name="NotaDetalleOrden" ColumnName="NotaDetalleOrden" />
+          <ScalarProperty Name="EstadoDetalleOrden" ColumnName="EstadoDetalleOrden" />
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+          <ScalarProperty Name="OrdenId" ColumnName="OrdenId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ordenes">
+      <EntityTypeMapping TypeName="IsTypeOf(MenuXally.Orden)">
+        <MappingFragment StoreEntitySet="Ordenes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CodigoOrden" ColumnName="CodigoOrden" />
+          <ScalarProperty Name="FechaOrden" ColumnName="FechaOrden" />
+          <ScalarProperty Name="TiempoOrden" ColumnName="TiempoOrden" />
+          <ScalarProperty Name="EstadoOrden" ColumnName="EstadoOrden" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

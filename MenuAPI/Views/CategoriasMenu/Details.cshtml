@@ -1,0 +1,42 @@
+﻿@model MenuAPI.CategoriaMenu
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CategoriaMenu</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CodigoTipoPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodigoTipoPlatillo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescripcionTipoPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescripcionTipoPlatillo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoTipoPlatillo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoTipoPlatillo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
