@@ -15,46 +15,63 @@ namespace MenuAPI.Areas.API.Controllers
 
         // ordenes atendidas !! ordenes no atendidas
         [HttpPost]
-        public JsonResult OrdenesDetalle(List<DetallesDeOrdenWS> detallesDeOrdenWS)
+        public JsonResult OrdenesDetalle(OrdenWS ordenWS, List<DetallesDeOrdenWS> detallesWS)
         {
-            int contador=0;
             ResultadoWS resultadoWS = new ResultadoWS();
-            foreach (var DetalleActual in detallesDeOrdenWS)
+
+            Orden orden = new Orden();
+
+            Orden ord = db.Ordenes.DefaultIfEmpty(null).FirstOrDefault(o => o.CodigoOrden.Trim() == ordenWS.codigo.Trim());
+
+            if (ord == null)
             {
-                DetalleDeOrden detallesDeOrden = new DetalleDeOrden();
-                detallesDeOrden.CantidadOrden = DetalleActual.cantidadorden;
-                detallesDeOrden.NotaDetalleOrden = DetalleActual.notaorden;
-                detallesDeOrden.EstadoDetalleOrden = DetalleActual.estado;
-                detallesDeOrden.MenuId = DetalleActual.menuid;
-                detallesDeOrden.OrdenId = DetalleActual.ordenid;
+                orden.CodigoOrden = ordenWS.codigo;
+                orden.FechaOrden = ordenWS.fechaorden;
+                orden.TiempoOrden = ordenWS.tiempoorden;
+                orden.EstadoOrden = ordenWS.estado;
 
-                db.DetallesDeOrden.Add(detallesDeOrden);
+                db.Ordenes.Add(orden);
 
-                int safe = db.SaveChanges();
+                int saveorder = db.SaveChanges();
 
-                if (safe > 0)
+                if (saveorder > 0)
                 {
-                    contador++;
-
-                    if (detallesDeOrdenWS.Count() == contador)
+                    foreach (var DetalleActual in detallesWS)
                     {
-                        resultadoWS.Mensaje = contador.ToString();
+                        DetalleDeOrden detallesDeOrden = new DetalleDeOrden();
+                        detallesDeOrden.CantidadOrden = DetalleActual.cantidadorden;
+                        detallesDeOrden.NotaDetalleOrden = DetalleActual.notaorden;
+                        detallesDeOrden.EstadoDetalleOrden = DetalleActual.estado;
+                        detallesDeOrden.MenuId = DetalleActual.menuid;
+                        detallesDeOrden.OrdenId = orden.Id;
+
+                        db.DetallesDeOrden.Add(detallesDeOrden);
+                    }
+
+                    int saveDetails = db.SaveChanges();
+
+                    if (saveDetails > 0)
+                    {
+                        resultadoWS.Mensaje = "Almecenado con exito";
                         resultadoWS.Resultado = true;
-                        return Json(resultadoWS);
+                    }
+                    else
+                    {
+                        resultadoWS.Mensaje = "Error al guardar el detalle";
+                        resultadoWS.Resultado = false;
                     }
                 }
                 else
                 {
-                    resultadoWS.Mensaje = "Error al guardar";
+                    resultadoWS.Mensaje = "Error al guardar la orden";
                     resultadoWS.Resultado = false;
-                    return Json(resultadoWS);
                 }
-
-
             }
-
-            resultadoWS.Mensaje = "Ni entro al foreach pendejo XD";
-            resultadoWS.Resultado = false;
+            else
+            {
+                resultadoWS.Mensaje = "El codigo ya existe";
+                resultadoWS.Resultado = false;
+            }
 
             return Json(resultadoWS);
         }

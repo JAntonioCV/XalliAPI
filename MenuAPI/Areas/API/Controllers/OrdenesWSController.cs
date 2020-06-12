@@ -30,6 +30,27 @@ namespace MenuAPI.Areas.API.Controllers
             return Json(ordenes, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult UltimoCodigo()
+        {
+            int code = int.Parse(db.Ordenes.Max(x => x.CodigoOrden));
+
+            string codigo;
+
+            if (code < 10)
+                codigo = "00" + (code + 1);
+            else
+                if (code >= 10 || code < 100)
+                codigo = "0" + (code + 1);
+            else
+                codigo = (code + 1).ToString();
+
+           
+            return Json(codigo, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         [HttpPost]
         public JsonResult AddOrden(OrdenWS ordenWS)
         {
