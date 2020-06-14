@@ -12,5 +12,6 @@ namespace MenuAPI.Areas.API.Models
         public string descripcion { get; set; }
         public double precio { get; set; }
         public bool estado { get; set; }
+        public int idcategoria { get; set; }
     }
 }

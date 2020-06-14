@@ -15,14 +15,15 @@ namespace MenuAPI.Areas.API.Controllers
         public JsonResult Menus()
         {
             var menus = (from m in db.Menus
-                              select new MenuWS
-                              {
-                                  id = m.Id,
-                                  codigo = m.CodigoMenu,
-                                  descripcion = m.DescripcionPlatillo,
-                                  precio=m.PrecioPlatillo,
-                                  estado = m.EstadoPlatillo
-
+                         select new MenuWS
+                         {
+                             id = m.Id,
+                             codigo = m.CodigoMenu,
+                             descripcion = m.DescripcionPlatillo,
+                             precio = m.PrecioPlatillo,
+                             estado = m.EstadoPlatillo,
+                             idcategoria = m.TipoDePlatilloId
+                            
                               }).ToList();
 
             return Json(menus , JsonRequestBehavior.AllowGet);
@@ -57,8 +58,9 @@ namespace MenuAPI.Areas.API.Controllers
                             codigo = m.CodigoMenu,
                             descripcion = m.DescripcionPlatillo,
                             precio = m.PrecioPlatillo,
-                            estado = m.EstadoPlatillo
-
+                            estado = m.EstadoPlatillo,
+                            idcategoria = m.TipoDePlatilloId
+                          
                         }).ToList();
 
             return Json(menu, JsonRequestBehavior.AllowGet);
