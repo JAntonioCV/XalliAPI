@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/30/2020 18:50:18
+-- Date Created: 06/28/2020 16:31:15
 -- Generated from EDMX file: C:\Users\JAntonioC\Documents\Visual Studio 2017\Projects\MenuAPI\MenuAPI\MenuXally.edmx
 -- --------------------------------------------------
 
@@ -26,8 +26,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_MenuDetalleDeOrden]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[DetallesDeOrden] DROP CONSTRAINT [FK_MenuDetalleDeOrden];
 GO
-IF OBJECT_ID(N'[dbo].[FK_DetalleDeOrdenOrden]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[DetallesDeOrden] DROP CONSTRAINT [FK_DetalleDeOrdenOrden];
+IF OBJECT_ID(N'[dbo].[FK_OrdenDetalleDeOrden]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DetallesDeOrden] DROP CONSTRAINT [FK_OrdenDetalleDeOrden];
 GO
 
 -- --------------------------------------------------

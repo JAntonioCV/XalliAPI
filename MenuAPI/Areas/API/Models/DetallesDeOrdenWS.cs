@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MenuAPI.Areas.API.Models
 {
-    public class DetallesDeOrdenWS
+    public class DetallesDeOrden
     {
         public int id { get; set; }
         public int cantidadorden { get; set; }
